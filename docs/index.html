@@ -1,0 +1,590 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>GM Tools</title>
+    <link rel="stylesheet" href="ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>gmtools</h1>
+
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Class_NWTInfo">Class NWTInfo</a></li>
+<li><a href="#Class_Entity">Class Entity</a></li>
+<li><a href="#Class_NetworkTable">Class NetworkTable</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>NetworkTables</strong></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>NetworkTables</code></h1>
+<p>Network Table Modules</p>
+<p>
+
+</p>
+
+
+<h2><a href="#Class_NWTInfo">Class NWTInfo</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#NWTInfo:GetServerTimestamp">NWTInfo:GetServerTimestamp ()</a></td>
+	<td class="summary">Retrieves the server timestamp</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#NWTInfo:SetServerTimestamp">NWTInfo:SetServerTimestamp (time)</a></td>
+	<td class="summary">Sets the server timestamp</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#NWTInfo:GetLastUpdateTime">NWTInfo:GetLastUpdateTime ()</a></td>
+	<td class="summary">Retrieves the last update time</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#NWTInfo:GetValue">NWTInfo:GetValue ()</a></td>
+	<td class="summary">Gets the client or server value of the table
+ The server value is <code>_live</code> and will always be up to date, the client value is <code>_value</code> and needs to be updated by the server every so often</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#NWTInfo:Update">NWTInfo:Update ()</a></td>
+	<td class="summary">Updates the network table accordingly and sets the server timestamp if it is</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#NWTInfo:UpdateTable">NWTInfo:UpdateTable (old, info, new, time)</a></td>
+	<td class="summary">Updates a table from the server</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#NWTInfo:SendUpdate">NWTInfo:SendUpdate (ply, since)</a></td>
+	<td class="summary">Sends the update to the player</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#NWTInfo:SendTable">NWTInfo:SendTable (table, info, since, keyBits)</a></td>
+	<td class="summary">Writes a table to the network bus</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#NWTInfo:NeedsUpdate">NWTInfo:NeedsUpdate ()</a></td>
+	<td class="summary">Determines whether the client needs an update</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#NWTInfo:CheckForUpdates">NWTInfo:CheckForUpdates ()</a></td>
+	<td class="summary">Checks if an update is needed, setting <code>_pendingupdate</code> to true and return true is so</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#NWTInfo:Forget">NWTInfo:Forget ()</a></td>
+	<td class="summary">Removes all values from the table as to forget them all</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#NWTInfo:ReceiveUpdate">NWTInfo:ReceiveUpdate (time)</a></td>
+	<td class="summary">Recieves an update for the network table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#NWTInfo:ReceiveTable">NWTInfo:ReceiveTable (table, keyBits)</a></td>
+	<td class="summary">Recieves a network table</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#NWTInfo:GetTimestampIdent">NWTInfo:GetTimestampIdent ()</a></td>
+	<td class="summary">Retrieves the network table's timestamp identifier</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#NWTInfo:New">NWTInfo:New (ent, ident, orig)</a></td>
+	<td class="summary">Creates a new network table</td>
+	</tr>
+</table>
+<h2><a href="#Class_Entity">Class Entity</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#_mt:NetworkTable">_mt:NetworkTable (index, ident, orig)</a></td>
+	<td class="summary">Creates or retrieves a network table for a specific entity</td>
+	</tr>
+</table>
+<h2><a href="#Class_NetworkTable">Class NetworkTable</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#NetworkTable:NetworkTable">NetworkTable:NetworkTable (ident, orig)</a></td>
+	<td class="summary">Constructor for NetworkTable</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header has-description"><a name="Class_NWTInfo"></a>Class NWTInfo</h2>
+
+          <div class="section-description">
+          Network Tables for Garry's Mod
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "NWTInfo:GetServerTimestamp"></a>
+    <strong>NWTInfo:GetServerTimestamp ()</strong>
+    </dt>
+    <dd>
+    Retrieves the server timestamp
+
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "NWTInfo:SetServerTimestamp"></a>
+    <strong>NWTInfo:SetServerTimestamp (time)</strong>
+    </dt>
+    <dd>
+    Sets the server timestamp
+
+    <h3>side:</h3>
+    <ul>
+         Server
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The time to set
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "NWTInfo:GetLastUpdateTime"></a>
+    <strong>NWTInfo:GetLastUpdateTime ()</strong>
+    </dt>
+    <dd>
+    Retrieves the last update time
+
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "NWTInfo:GetValue"></a>
+    <strong>NWTInfo:GetValue ()</strong>
+    </dt>
+    <dd>
+    Gets the client or server value of the table
+ The server value is <code>_live</code> and will always be up to date, the client value is <code>_value</code> and needs to be updated by the server every so often
+
+    </ul>
+    <h3>Remarks:</h3>
+    <ul>
+         Internal use only
+    </ul>
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "NWTInfo:Update"></a>
+    <strong>NWTInfo:Update ()</strong>
+    </dt>
+    <dd>
+    Updates the network table accordingly and sets the server timestamp if it is
+
+    <h3>side:</h3>
+    <ul>
+         Server
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "NWTInfo:UpdateTable"></a>
+    <strong>NWTInfo:UpdateTable (old, info, new, time)</strong>
+    </dt>
+    <dd>
+    Updates a table from the server
+
+    <h3>side:</h3>
+    <ul>
+         Server
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">old</span>
+            <span class="types"><a class="type" href="#Class_NetworkTable">NetworkTable</a></span>
+         The old table to update
+        </li>
+        <li><span class="parameter">info</span>
+         The info for the new table
+        </li>
+        <li><span class="parameter">new</span>
+            <span class="types"><a class="type" href="#Class_NetworkTable">NetworkTable</a></span>
+         The new table to update to
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The current time of the update
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Whether the update changed old
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "NWTInfo:SendUpdate"></a>
+    <strong>NWTInfo:SendUpdate (ply, since)</strong>
+    </dt>
+    <dd>
+    Sends the update to the player
+
+    <h3>side:</h3>
+    <ul>
+         Server
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">ply</span>
+            <span class="types"><a class="type" href="http://wiki.garrysmod.com/page/Category:Player">Player</a></span>
+         The player to send an update to (currently does nothing)
+        </li>
+        <li><span class="parameter">since</span>
+            <span class="types"><span class="type">number</span></span>
+         The time since the last update
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "NWTInfo:SendTable"></a>
+    <strong>NWTInfo:SendTable (table, info, since, keyBits)</strong>
+    </dt>
+    <dd>
+    Writes a table to the network bus
+
+    <h3>side:</h3>
+    <ul>
+         Server
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">table</span>
+            <span class="types"><a class="type" href="#Class_NetworkTable">NetworkTable</a></span>
+         The table to write for
+        </li>
+        <li><span class="parameter">info</span>
+         Info about the table
+        </li>
+        <li><span class="parameter">since</span>
+            <span class="types"><span class="type">number</span></span>
+         The time since the last update
+        </li>
+        <li><span class="parameter">keyBits</span>
+            <span class="types"><span class="type">number</span></span>
+         The size of bits being sent
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "NWTInfo:NeedsUpdate"></a>
+    <strong>NWTInfo:NeedsUpdate ()</strong>
+    </dt>
+    <dd>
+    Determines whether the client needs an update
+
+    <h3>side:</h3>
+    <ul>
+         Client
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "NWTInfo:CheckForUpdates"></a>
+    <strong>NWTInfo:CheckForUpdates ()</strong>
+    </dt>
+    <dd>
+    Checks if an update is needed, setting <code>_pendingupdate</code> to true and return true is so
+
+    <h3>side:</h3>
+    <ul>
+         Client
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "NWTInfo:Forget"></a>
+    <strong>NWTInfo:Forget ()</strong>
+    </dt>
+    <dd>
+    Removes all values from the table as to forget them all
+
+    <h3>side:</h3>
+    <ul>
+         Client
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "NWTInfo:ReceiveUpdate"></a>
+    <strong>NWTInfo:ReceiveUpdate (time)</strong>
+    </dt>
+    <dd>
+    Recieves an update for the network table
+
+    <h3>side:</h3>
+    <ul>
+         Client
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         The time of the current update
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "NWTInfo:ReceiveTable"></a>
+    <strong>NWTInfo:ReceiveTable (table, keyBits)</strong>
+    </dt>
+    <dd>
+    Recieves a network table
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">table</span>
+            <span class="types"><a class="type" href="#Class_NetworkTable">NetworkTable</a></span>
+         The network table to recieve
+        </li>
+        <li><span class="parameter">keyBits</span>
+            <span class="types"><span class="type">number</span></span>
+         The size of bits each number contains
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "NWTInfo:GetTimestampIdent"></a>
+    <strong>NWTInfo:GetTimestampIdent ()</strong>
+    </dt>
+    <dd>
+    Retrieves the network table's timestamp identifier
+
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "NWTInfo:New"></a>
+    <strong>NWTInfo:New (ent, ident, orig)</strong>
+    </dt>
+    <dd>
+    Creates a new network table
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">ent</span>
+            <span class="types"><a class="type" href="http://wiki.garrysmod.com/page/Category:Entity">Entity</a></span>
+         An entity to assign this table to or nil
+        </li>
+        <li><span class="parameter">ident</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         An identifier for the network table
+        </li>
+        <li><span class="parameter">orig</span>
+            <span class="types"><a class="type" href="#Class_NetworkTable">NetworkTable</a></span>
+         The original table to insert
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Class_Entity"></a>Class Entity</h2>
+
+          <div class="section-description">
+          The Garry's Mod Entity class extended by Network Tables
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "_mt:NetworkTable"></a>
+    <strong>_mt:NetworkTable (index, ident, orig)</strong>
+    </dt>
+    <dd>
+    Creates or retrieves a network table for a specific entity
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">index</span>
+            <span class="types"><span class="type">int</span></span>
+         The network var's slot for the timestamp
+        </li>
+        <li><span class="parameter">ident</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         An identified for the network table
+        </li>
+        <li><span class="parameter">orig</span>
+            <span class="types"><a class="type" href="#Class_NetworkTable">NetworkTable</a></span>
+         The original table to insert
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Class_NetworkTable"></a>Class NetworkTable</h2>
+
+          <div class="section-description">
+          The Network Table class
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "NetworkTable:NetworkTable"></a>
+    <strong>NetworkTable:NetworkTable (ident, orig)</strong>
+    </dt>
+    <dd>
+    Constructor for NetworkTable
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">ident</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         An identified for the network table
+        </li>
+        <li><span class="parameter">orig</span>
+            <span class="types"><a class="type" href="#Class_NetworkTable">NetworkTable</a></span>
+         The original table to insert
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.5</a></i>
+<i style="float:right;">Last updated 2016-08-25 11:17:52 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

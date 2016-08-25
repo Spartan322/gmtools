@@ -15,6 +15,16 @@
 -- You should have received a copy of the GNU Lesser General Public License
 -- along with GMTools. If not, see <http://www.gnu.org/licenses/>.
 
+--- Network Table Modules
+-- @module NetworkTables
+
+--- Network Tables for Garry's Mod
+-- @type NWTInfo
+-- @author Metapyziks (James King) [metapyziks@gmail.com]
+-- @author w0rthy [edpattie@gmail.com]
+-- @copyright Metapyziks (James King) [metapyziks@gmail.com]
+-- @license GPLv3
+
 if SERVER then AddCSLuaFile("nwtable.lua") end
 
 local POLL_PERIOD = 0
@@ -39,6 +49,7 @@ end
 local _nwtents = NWTInfo._nwtents
 local _globals = NWTInfo._globals
 
+--- Retrieves the server timestamp
 function NWTInfo:GetServerTimestamp()
     return -1
 end
@@ -50,18 +61,27 @@ if SERVER then
     NWTInfo._info = nil
     NWTInfo._nextKeyNum = 1
 
+    --- Sets the server timestamp
+    -- @side Server
+    -- @number time The time to set
     function NWTInfo:SetServerTimestamp(time)
         return
     end
 
+    --- Retrieves the last update time
     function NWTInfo:GetLastUpdateTime()
         return self._info._lastupdate
     end
 
+    --- Gets the client or server value of the table
+    -- The server value is `_live` and will always be up to date, the client value is `_value` and needs to be updated by the server every so often
+    -- @remarks Internal use only
     function NWTInfo:GetValue()
         return self._live
     end
 
+    --- Updates the network table accordingly and sets the server timestamp if it is
+    -- @side Server
     function NWTInfo:Update()
         local t = CurTime()
         if self:UpdateTable(self._value, self._info, self._live, t) then
@@ -77,6 +97,13 @@ if SERVER then
         [TYPE_ENTITY] = function(v) net.WriteEntity(v) end
     }
 
+    --- Updates a table from the server
+    -- @nwt old The old table to update
+    -- @param info The info for the new table
+    -- @nwt new The new table to update to
+    -- @number time The current time of the update
+    -- @side Server
+    -- @treturn bool Whether the update changed old
     function NWTInfo:UpdateTable(old, info, new, time)
         local changed = false
         for k, v in pairs(new) do
@@ -146,6 +173,10 @@ if SERVER then
         net.Send(ply)
     end)
 
+    --- Sends the update to the player
+    -- @tparam Player ply The player to send an update to (currently does nothing)
+    -- @number since The time since the last update
+    -- @side Server
     function NWTInfo:SendUpdate(ply, since)
         since = since or 0
 
@@ -177,6 +208,12 @@ if SERVER then
         self:SendTable(self._value, self._info, since, keyBits)
     end
 
+    --- Writes a table to the network bus
+    -- @nwt table The table to write for
+    -- @param info Info about the table
+    -- @number since The time since the last update
+    -- @number keyBits The size of bits being sent
+    -- @side Server
     function NWTInfo:SendTable(table, info, since, keyBits)
         local count = 0
         for k, i in pairs(info) do
@@ -217,6 +254,8 @@ elseif CLIENT then
         return self._value
     end
 
+    --- Determines whether the client needs an update
+    -- @side Client
     function NWTInfo:NeedsUpdate()
         return self._lastupdate < self:GetServerTimestamp()
     end
@@ -225,6 +264,8 @@ elseif CLIENT then
         return self._lastupdate
     end
 
+    --- Checks if an update is needed, setting `_pendingupdate` to true and return true is so
+    -- @side Client
     function NWTInfo:CheckForUpdates()
         if not self._pendingupdate and self:NeedsUpdate() then
             self._pendingupdate = true
@@ -232,6 +273,8 @@ elseif CLIENT then
         end
     end
 
+    --- Removes all values from the table as to forget them all
+    -- @side Client
     function NWTInfo:Forget()
         if self._entity then
             if not self._entity._nwts then return end
@@ -257,6 +300,9 @@ elseif CLIENT then
         [TYPE_ENTITY] = function() return net.ReadEntity() end
     }
 
+    --- Recieves an update for the network table
+    -- @number time The time of the current update
+    -- @side Client
     function NWTInfo:ReceiveUpdate(time)
         if time < self._lastupdate then return end
         self._lastupdate = time
@@ -270,6 +316,9 @@ elseif CLIENT then
         self:ReceiveTable(self._value, keyBits)
     end
 
+    --- Recieves a network table
+    -- @nwt table The network table to recieve
+    -- @number keyBits The size of bits each number contains
     function NWTInfo:ReceiveTable(table, keyBits)
         local count = net.ReadInt(8)
         for i = 1, count do
@@ -350,10 +399,15 @@ elseif CLIENT then
     end
 end
 
+--- Retrieves the network table's timestamp identifier
 function NWTInfo:GetTimestampIdent()
     return self._timestampIdent
 end
 
+--- Creates a new network table
+-- @ent ent An entity to assign this table to or nil
+-- @string ident An identifier for the network table
+-- @nwt orig The original table to insert
 function NWTInfo:New(ent, ident, orig)
     if self == NWTInfo then
         return setmetatable({}, self):New(ent, ident, orig)
@@ -406,8 +460,15 @@ function NWTInfo:New(ent, ident, orig)
     return self
 end
 
+--- The Garry's Mod Entity class extended by Network Tables
+-- @type Entity
+-- @alias _mt
 _mt = FindMetaTable("Entity")
 
+--- Creates or retrieves a network table for a specific entity
+-- @int index The network var's slot for the timestamp
+-- @string ident An identified for the network table
+-- @nwt orig The original table to insert
 function _mt:NetworkTable(index, ident, orig)
     if not self._nwts then self._nwts = {} end
 
@@ -440,6 +501,12 @@ function _mt:NetworkTable(index, ident, orig)
     return nwt:GetValue()
 end
 
+--- The Network Table class
+-- @type NetworkTable
+
+--- Constructor for NetworkTable
+-- @string ident An identified for the network table
+-- @nwt orig The original table to insert
 function NetworkTable(ident, orig)
     if _globals[ident] then return _globals[ident]:GetValue() end
 
